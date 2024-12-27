@@ -8,8 +8,18 @@ using namespace std;
 class Solution {
   public:
     // You need to complete this function
-
+void hanoi(int n, int from, int to, int aux){
+    if(n==0){
+            return ;
+        }
+    
+}
     int towerOfHanoi(int n, int from, int to, int aux) {
+        if(n==0){
+            return 0;
+        }
+        
+        
         return pow(2,n)-1;
     }
 };
