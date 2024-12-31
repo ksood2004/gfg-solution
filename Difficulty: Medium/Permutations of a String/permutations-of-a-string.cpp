@@ -6,24 +6,23 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-  void solve(string ip,string op,vector<string>& karan){
-      if(ip.size()==0){
-          karan.push_back(op);
+  void solve(string &s,int index,vector<string>& karan){
+      if(index==s.size()){
+          karan.push_back(s);
           return;
       }
       unordered_set<char> prem;
-      for(int i=0;i<ip.size();i++){
-          if(prem.find(ip[i])==prem.end()){// agar same nhi mila toh hi considered krega
-              prem.insert(ip[i]);
-          
-          string newip=ip.substr(0,i)+ip.substr(i+1);
-          string newop=op+ip[i];
-          solve(newip,newop,karan);
+      for(int i=index;i<s.size();i++){
+          if(prem.find(s[i])==prem.end()){// agar same nhi mila toh hi considered krega
+              prem.insert(s[i]);
+              swap(s[index],s[i]);
+              solve(s,index+1,karan);
+              swap(s[i],s[index]);
       }
   }}
     vector<string> findPermutation(string &s) {
         vector<string> karan;
-        solve(s,"",karan);
+        solve(s,0,karan);
         return karan;
     }
 };
