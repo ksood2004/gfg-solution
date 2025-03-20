@@ -9,7 +9,7 @@ using namespace std;
 class Solution {
     public:
 bool canAllocate(vector<int>& arr, int n, int maxPages, int k) {
-    int students = 1; // Start with 1 student
+    int students = 1; 
     int currentPages = 0;
 
     for (int i = 0; i < n; i++) {
@@ -18,16 +18,14 @@ bool canAllocate(vector<int>& arr, int n, int maxPages, int k) {
         }
 
         if (currentPages + arr[i] > maxPages) {
-            // Allocate to a new student
+            
             students++;
             currentPages = arr[i];
-
-            // If students exceed k, allocation is not feasible
             if (students > k) {
                 return false;
             }
         } else {
-            // Add book to current student's allocation
+            
             currentPages += arr[i];
         }
     }
@@ -42,25 +40,21 @@ int findPages(vector<int>& arr, int k) {
     for(int i=0;i<n;i++){
         sum+=arr[i];
     }
-    // Edge case: if there are more students than books
     if (k > n) {
         return -1;
     }
-
-    // Calculate the range for binary search
-    int start = 0; // Maximum single book size
-    int end = sum; // Sum of all pages
+    int start = 0; 
+    int end = sum; 
     int result = -1;
 
-    // Binary search for the minimum maximum pages
     while (start <= end) {
         int mid = start + (end - start) / 2;
 
         if (canAllocate(arr, n, mid, k)) {
-            result = mid; // Update result to current mid
-            end = mid - 1; // Try for a smaller value
+            result = mid; 
+            end = mid - 1; 
         } else {
-            start = mid + 1; // Try for a larger value
+            start = mid + 1; 
         }
     }
 
