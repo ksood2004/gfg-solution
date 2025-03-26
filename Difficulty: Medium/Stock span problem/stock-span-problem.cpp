@@ -4,42 +4,40 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    // Function to calculate the span of stockâ€™s price for all n days.
     vector<int> calculateSpan(vector<int>& arr) {
-        int n = arr.size();
-        vector<int> prem; 
-        stack<pair<int,int>> karan;
-       for (int i = 0;i<n;i++) {
-        if (karan.empty()) {
-            prem.push_back(-1);
-        }
-        else if (karan.top().first > arr[i]) {
-            prem.push_back(karan.top().second);
-        }
-        else {
-            while (!karan.empty() && karan.top().first <= arr[i]) {
-                karan.pop();
+        int n=arr.size();
+        stack<pair<int,int>> s;
+        vector<int>karan;
+        for(int i=0;i<n;i++){
+            if(s.empty()){
+                karan.push_back(-1);
             }
-            if (karan.empty()) {
-                prem.push_back(-1);
-            } else {
-                prem.push_back(karan.top().second);
+            else if(s.size()>0 && s.top().first>arr[i]){
+                karan.push_back(s.top().second);
             }
+            else if(s.size()>0 && s.top().first<=arr[i]){
+                while(s.size()>0 && s.top().first<=arr[i]){
+                    s.pop();
+                }
+                if(s.size()==0){
+                    karan.push_back(-1);
+                }
+                else{
+                    karan.push_back(s.top().second);
+                }
+            }
+            s.push({arr[i],i});
         }
-        karan.push({arr[i], i});
+        for(int i=0;i<n;i++){
+            karan[i]=i-karan[i];
+        }
+        return karan;
     }
-
-  
-    // Calculate distances
-    for (int i = 0; i < prem.size(); i++) {
-        
-            prem[i] = i-prem[i];
-        }
-    return prem;
-}
 };
+
 
 //{ Driver Code Starts.
 
