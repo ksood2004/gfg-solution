@@ -4,42 +4,39 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     // Function to find the next greater element for each element of the array.
     vector<int> nextLargerElement(vector<int>& arr) {
         int n=arr.size();
-        vector<int> prem;  // value ko store karne ke liye
-        stack<int> karan;
+        stack<int> s;
+        vector<int> karan;
         for(int i=n-1;i>=0;i--){
-            if(karan.empty()){
-                prem.push_back(-1);
+            if(s.empty()){
+                karan.push_back(-1);
             }
-            else if(karan.size()>0 && karan.top()>arr[i]){
-                prem.push_back(karan.top());
+            else if(s.size()>0 && s.top()>arr[i]){
+                karan.push_back(s.top());
             }
-            else if(karan.size()>0 && karan.top()<=arr[i]){
-                while(karan.size()>0 && karan.top()<=arr[i]){
-                    karan.pop();
+            else if(s.size()>0 && s.top()<=arr[i]){
+                while(s.size()>0 && s.top()<=arr[i]){
+                    s.pop();
                 }
-                if(karan.size()==0){
-                    prem.push_back(-1);
-                    
-                    
+                if(s.size()==0){
+                    karan.push_back(-1);
                 }
                 else{
-                   prem.push_back(karan.top());
-                    
+                    karan.push_back(s.top());
                 }
-               
             }
-             karan.push(arr[i]);
-            
+            s.push(arr[i]);
         }
-        reverse(prem.begin(),prem.end());
-        return prem;
+        reverse(karan.begin(),karan.end());
+        return karan;
     }
 };
+
 
 //{ Driver Code Starts.
 
