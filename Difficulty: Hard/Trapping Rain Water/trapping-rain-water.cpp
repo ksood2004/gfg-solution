@@ -5,57 +5,69 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
-
-    // Function to find the trapped water between the blocks.
   public:
-    int mah(vector<int>& heights){
-    int n = heights.size();
-    vector<int> prem;  // To store nearest smaller to left indices
-    vector<int> neha;  // To store nearest smaller to right indices
-    stack<int> karan;   // Stack for left smaller
-    stack<int> aaryan; // Stack for right smaller
-
-    // Code for nearest smaller to left
-    for (int i = 0; i < n; i++) {
-        while (!karan.empty() && karan.top() <= heights[i]) {
-            karan.pop();
-        }
-        if (karan.empty()) {
-            prem.push_back(-1);
-        } else {
-            prem.push_back(karan.top());
-        }
-        karan.push(heights[i]);
-    }
-
-    // Code for nearest smaller to right
-    for (int i = n - 1; i >= 0; i--) {
-        while (!aaryan.empty() && aaryan.top() <= heights[i]) {
-            aaryan.pop();
-        }
-        if (aaryan.empty()) {
-            neha.push_back(n); // Push `n` when no smaller element is found
-        } else {
-            neha.push_back(aaryan.top());
-        }
-        aaryan.push(heights[i]);
-    }
-
-    reverse(neha.begin(), neha.end()); 
-
-    int maxArea = 0;
-        for (int i = 0; i < n; ++i) {
-            int width = neha[i] - prem[i] - 1;  
-            int area = heights[i] * width;     
-            maxArea = max(maxArea, area);     
-        }
-
-        return maxArea;
-}
-
-
-    int trappingWater(vector<int> &arr) {
+  int mah(vector<int> & karan){
+      int n=karan.size();
+      vector<int> aaryan; // for nsr
+      vector<int> c; // for nsl
+      stack<int> s1;
+      stack<int> s2;
+      
+      //nsl
+      for(int i=0;i<n;i++){
+          if(s1.size()==0){
+              aaryan.push_back(-1);
+          }
+          else if(s1.size()>0 && s1.top()<karan[i]){
+              aaryan.push_back(s1.top());
+          }
+          else if(s1.size()>0 && s1.top()>=karan[i]){
+              while(s1.size()>0 && s1.top()<karan[i]){
+                  s1.pop();
+              }
+              if(s1.size()==0){
+                  aaryan.push_back(-1);
+              }
+              else{
+                  aaryan.push_back(s1.top());
+              }
+          }
+          s1.push(karan[i]);
+      }
+      // nsr
+      for(int i=n-1;i>=0;i--){
+           if(s2.size()==0){
+              aaryan.push_back(-1);
+          }
+          else if(s2.size()>0 && s2.top()<karan[i]){
+              c.push_back(s1.top());
+          }
+          else if(s2.size()>0 && s2.top()>=karan[i]){
+              while(s2.size()>0 && s1.top()<karan[i]){
+                  s2.pop();
+              }
+              if(s2.size()==0){
+                  c.push_back(-1);
+              }
+              else{
+                  c.push_back(s2.top());
+              }
+          }
+          s2.push(karan[i]);
+      }
+      reverse(c.begin(),c.end());
+      
+      int ans=0;
+      for(int i=0;i<n;i++){
+          int maxx=c[i]-aaryan[i]-1;
+          int area=maxx*karan[i];
+          ans=max(area,ans);
+      }
+      return ans;
+  }
+    int maxWater(vector<int> &arr) {
          int n = arr.size();
         if (n <= 2) return 0;
 
@@ -77,11 +89,9 @@ class Solution {
         }
 
         return totalWater;
-    
-        
-        
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
@@ -101,7 +111,7 @@ int main() {
         }
 
         Solution ob;
-        int res = ob.trappingWater(arr);
+        int res = ob.maxWater(arr);
 
         cout << res << endl << "~" << endl;
     }
