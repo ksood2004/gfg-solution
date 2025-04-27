@@ -4,10 +4,11 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-  vector<string> ans;
-void solve(string ip,string op){
+vector<string> ans;
+    void solve(string ip,string op){
     if(ip.length()==0){
         ans.push_back(op);
         return ;
@@ -36,6 +37,7 @@ void solve(string ip,string op){
         
     }
 };
+
 
 //{ Driver Code Starts.
 
