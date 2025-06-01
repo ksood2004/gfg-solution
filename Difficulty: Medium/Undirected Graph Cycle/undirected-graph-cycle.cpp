@@ -1,71 +1,51 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
 class Solution {
-  private:
-    bool directed(vector<vector<int>>& adj,int node,vector<int>& vis){
-        queue<pair<int,int>> q;
-        q.push({node,-1});
-        vis[node]=1;
-        while(!q.empty()){
-            int node=q.front().first;
-            int parent=q.front().second;
+  public:
+    bool bfs(vector<vector<int>>& adj, vector<int>& vis, int node) {
+        queue<pair<int, int>> q;
+        q.push({node, -1});
+        vis[node] = 1;
+
+        while (!q.empty()) {
+            int curr = q.front().first;
+            int parent = q.front().second;
             q.pop();
-            for(auto adjacent: adj[node]){
-                if(!vis[adjacent]){
-                    vis[adjacent]=1;
-                    q.push({adjacent,node});
+
+            for (int neighbour : adj[curr]) {
+                if (!vis[neighbour]) {
+                    vis[neighbour] = 1;
+                    q.push({neighbour, curr});  // FIXED: push the correct neighbor and its parent
                 }
-                else if(adjacent!=parent){
+                else if (neighbour != parent) {
+                    // A visited neighbor that is not the parent => cycle
                     return true;
                 }
             }
         }
-        return false;
-    }
-    public:
-    bool isCycle(vector<vector<int>>& adj) {
-        int v=adj.size();
-        vector<int> karan(v,0);
-        for(int i=0;i<v;i++){
-            if(!karan[i]){
-            if(directed(adj,i,karan)){
-                return true;
-            }
-        }
-        }
-        return false;
-    }
-    
-};
 
-//{ Driver Code Starts.
-int main() {
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int V, E;
-        cin >> V >> E;
+        return false;
+    }
+
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        vector<int> vis(V, 0);
         vector<vector<int>> adj(V);
-        for (int i = 0; i < E; i++) {
-            int u, v;
-            cin >> u >> v;
+
+        // Build adjacency list from edges
+        for (auto& edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
             adj[u].push_back(v);
             adj[v].push_back(u);
         }
-        Solution obj;
-        bool ans = obj.isCycle(adj);
-        if (ans)
-            cout << "1\n";
-        else
-            cout << "0\n";
 
-        cout << "~"
-             << "\n";
+        // Run BFS from each unvisited node
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                if (bfs(adj, vis, i)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
-    return 0;
-}
-// } Driver Code Ends
+};
