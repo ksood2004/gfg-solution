@@ -1,38 +1,46 @@
 class Solution {
-public:
-    void dfs(int node, vector<int>& vis, vector<vector<int>>& adj, stack<int>& st) {
-        vis[node] = 1;
-        for (auto neighbour : adj[node]) {
-            if (!vis[neighbour]) {
-                dfs(neighbour, vis, adj, st);
-            }
-        }
-        st.push(node); // push after all children are processed
-    }
-
+  public:
     vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        vector<int> indegree(V,0);
         vector<vector<int>> adj(V);
-        for (auto edge : edges) {
-            int u = edge[0];
-            int v = edge[1];
-            adj[u].push_back(v); // Directed edge from u to v
+        
+        //isme humne list mein convert karna hai 
+        for(auto & edge: edges){
+            int u=edge[0];
+            int v=edge[1];
+            adj[u].push_back(v);
+            indegree[v]++;
         }
-
-        vector<int> vis(V, 0);
-        stack<int> st;
-
-        for (int i = 0; i < V; i++) {
-            if (!vis[i]) {
-                dfs(i, vis, adj, st);
+        
+        queue<int> q;
+        vector<int> topo;
+        
+        // yeh 0 degree wala jo hai usko push karna hai 
+        for(int i=0;i<V;i++){
+            if(indegree[i]==0){
+                q.push(i);
             }
         }
+        
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
 
-        vector<int> topo;
-        while (!st.empty()) {
-            topo.push_back(st.top());
-            st.pop();
+            for (int neighbor : adj[node]) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
         }
-
+        
+        if(topo.size() !=V){
+            return {};
+        }
         return topo;
+        
+        
+        
     }
 };
