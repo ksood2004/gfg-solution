@@ -11,10 +11,11 @@ class Solution {
                 return s;
             }
         while(s<e){
-            int mid=s+(e-s)/2;
+            
             if(arr[s]<=arr[e]){
                 return s;
             }
+            int mid=s+(e-s)/2;
             if(arr[mid]>arr[e]){
                 s=mid+1;
             }
