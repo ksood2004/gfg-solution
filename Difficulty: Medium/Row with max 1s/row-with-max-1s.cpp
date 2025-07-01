@@ -1,101 +1,24 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-
-// User function template for C++
 class Solution {
   public:
-  int lowerBound(vector<int> arr, int n, int x) {
-    int low = 0, high = n - 1;
-    int ans = n;
-
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        // maybe an answer
-        if (arr[mid] >= x) {
-            ans = mid;
-            //look for smaller index on the left
-            high = mid - 1;
-        }
-        else {
-            low = mid + 1; // look on the right
-        }
-    }
-    return ans;
-}
     int rowWithMax1s(vector<vector<int>> &arr) {
-        int n=arr.size();
-        int m=arr[0].size();
-        int cnt_max = 0;
-    int index = -1;
+        int row = arr.size();
+        int col = arr[0].size();
+        int maxone = 0;
+        int maxrow = -1;  // Use -1 if no row has 1s
 
-    //traverse the rows:
-    for (int i = 0; i < n; i++) {
-        // get the number of 1's:
-        int cnt_ones = m - lowerBound(arr[i], m, 1);
-        if (cnt_ones > cnt_max) {
-            cnt_max = cnt_ones;
-            index = i;
-        }
-    }
-    return index;
-    }
-};
-
-
-//{ Driver Code Starts.
-
-int main() {
-    int t;
-    cin >> t;
-    cin.ignore(); // Ignore the newline character after the integer input
-    while (t--) {
-        string input;
-        getline(cin, input);
-        vector<vector<int>> mat;
-        string innerArray;
-        bool isInsideArray = false;
-
-        for (char c : input) {
-            if (c == '[') {
-                if (isInsideArray) {
-                    innerArray.clear();
+        for (int i = 0; i < row; i++) {
+            int cnt = 0;  // ✅ Reset count for each row
+            for (int j = 0; j < col; j++) {
+                if (arr[i][j] == 1) {
+                    cnt++;
                 }
-                isInsideArray = true;
-            } else if (c == ']') {
-                if (isInsideArray && !innerArray.empty()) {
-                    vector<int> row;
-                    stringstream ss(innerArray);
-                    int num;
-
-                    while (ss >> num) {
-                        row.push_back(num);
-                        if (ss.peek() == ',')
-                            ss.ignore();
-                        while (isspace(ss.peek()))
-                            ss.ignore();
-                    }
-
-                    mat.push_back(row);
-                    innerArray.clear();
-                }
-                isInsideArray = false;
-            } else if (isInsideArray) {
-                if (!isspace(c)) {
-                    innerArray += c;
-                }
+            }
+            if (cnt > maxone) {
+                maxone = cnt;    // ✅ Update maxone
+                maxrow = i;
             }
         }
 
-        Solution obj;
-        cout << obj.rowWithMax1s(mat);
-        cout << endl;
-        cout << "~" << endl;
+        return maxrow;
     }
-    return 0;
-}
-
-// } Driver Code Ends
+};
