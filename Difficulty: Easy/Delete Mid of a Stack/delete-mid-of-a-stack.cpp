@@ -1,64 +1,22 @@
-//{ Driver Code Starts
-// Initial template for C++
-
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-// User function template for C++
- 
 class Solution {
   public:
-    void deletee(stack<int>& s,int karan,int mid){
-        if(karan==mid){
-            s.pop();
-            return;
-        }
-        int hello=s.top();
-        s.pop();
-        
-        
-        deletee(s,karan+1,mid);
-        s.push(hello);
-    }
-    // Function to delete middle element of a stack.
+  void del(stack<int>& s , int k,int mid){
+      if(k==mid){
+          s.pop();
+          return ;
+      }
+      int val=s.top();
+      s.pop();
+      del(s,k+1,mid);
+      s.push(val);
+  }
+    
     void deleteMid(stack<int>& s) {
-        if(s.size()==0 || s.size()==1){
-            s.pop();
-            return;
+        if(s.empty()){
+            return ;
         }
-       int mid=(s.size())/2;
-       
-       deletee(s,0,mid);
+        int n=s.size();
+        int mid=n/2;
+        del(s,0,mid);
     }
 };
-
-//{ Driver Code Starts.
-int main() {
-    int t;
-    cin >> t;
-    cin.ignore();
-    while (t--) {
-        string line;
-        getline(cin, line);
-        stringstream ss(line);
-        stack<int> s;
-        int num;
-        while (ss >> num) {
-            s.push(num);
-        }
-
-        Solution ob;
-        ob.deleteMid(s);
-        while (!s.empty()) {
-            cout << s.top() << " ";
-            s.pop();
-        }
-        cout << endl;
-        cout << "~\n";
-    }
-    return 0;
-}
-
-// } Driver Code Ends
