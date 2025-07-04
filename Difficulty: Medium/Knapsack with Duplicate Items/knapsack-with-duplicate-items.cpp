@@ -1,5 +1,3 @@
-// User function Template for C++
-
 class Solution {
   public:
   int t[1001][1001];
