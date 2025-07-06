@@ -1,7 +1,8 @@
 class Solution {
   public:
-  bool t[201][10001];
-  bool karan(vector<int>& arr,int n,int sum){
+  int t[201][10001];
+  int karan(vector<int>& arr,int n,int sum){
+      
       for(int i=0;i<=n;i++){
           for(int j=0;j<=sum;j++){
               if(i==0){
@@ -26,8 +27,9 @@ class Solution {
       return t[n][sum];
   }
     bool isSubsetSum(vector<int>& arr, int sum) {
-        memset(t,0,sizeof(t));
         int n=arr.size();
+        
+        memset(t,0,sizeof(t));
         return karan(arr,n,sum);
         
     }
